@@ -374,10 +374,16 @@ nav ul li a:hover::after {
 }
 
 .flipping-logo {
-  width: clamp(80px, 12vw, 120px);
+  width: clamp(150px, 20vw, 220px);
   height: auto;
-  animation: flipLogo 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-  filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.6));
+  animation: flipLogo 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  filter: drop-shadow(0 0 25px rgba(0, 243, 255, 0.4));
+  transition: 0.3s;
+}
+
+.flipping-logo:hover {
+  filter: drop-shadow(0 0 40px rgba(0, 243, 255, 0.8));
+  transform: scale(1.05);
 }
 
 @keyframes flipLogo {
