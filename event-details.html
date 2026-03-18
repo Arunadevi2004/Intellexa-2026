@@ -5,212 +5,744 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Details | INTELLEXA '26</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="home.css">
+
   <style>
-    .details-container {
-      max-width: 800px;
-      margin: 120px auto 50px;
-      padding: 50px;
-      background: rgba(0, 10, 18, 0.6);
-      border-radius: 20px;
-      backdrop-filter: blur(15px);
-      text-align: center;
-      border: 1px solid rgba(0, 243, 255, 0.3);
-      box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
+    /* ---- PAGE WRAPPER ---- */
+    .event-page {
+      max-width: 900px;
+      margin: 110px auto 60px;
+      padding: 0 20px;
     }
 
-    .details-container h1 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      color: #fff;
-      text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
-      font-weight: 800;
-    }
-
-    .details-container p.desc-text {
-      font-size: 1.1rem;
-      line-height: 1.7;
-      margin-bottom: 35px;
-      color: #cbd5e1;
-    }
-
-    .back-btn {
+    /* ---- BADGE ---- */
+    .event-type-badge {
       display: inline-block;
-      padding: 18px 50px;
+      padding: 6px 20px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .badge-tech {
+      background: rgba(0,55,255,0.2);
+      border: 1px solid var(--blue);
+      color: #7aaeff;
+    }
+    .badge-non-tech {
+      background: rgba(255,94,0,0.2);
+      border: 1px solid var(--orange);
+      color: #FFAA66;
+    }
+    .badge-workshop {
+      background: rgba(0,243,255,0.1);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+    }
+
+    /* ---- TITLE ---- */
+    .event-hero-title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      background: linear-gradient(90deg, #fff, var(--cyan), var(--blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      line-height: 1.1;
+    }
+    .event-tagline {
+      font-size: 1rem;
+      color: #94a3b8;
+      margin-bottom: 40px;
+    }
+
+    /* ---- POSTER ---- */
+    .poster-wrapper {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(0,243,255,0.25);
+      box-shadow: 0 0 40px rgba(0,243,255,0.12);
+      cursor: pointer;
+      margin-bottom: 50px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .poster-wrapper:hover {
+      transform: scale(1.01);
+      box-shadow: 0 0 60px rgba(0,243,255,0.25);
+    }
+    .poster-wrapper img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+    .poster-expand-hint {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ---- LIGHTBOX ---- */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+    .lightbox-overlay.active {
+      display: flex;
+    }
+    .lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 16px;
+      border: 1px solid rgba(0,243,255,0.3);
+      box-shadow: 0 0 80px rgba(0,243,255,0.3);
+      animation: lightboxIn 0.3s ease;
+    }
+    @keyframes lightboxIn {
+      from { transform: scale(0.85); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .lightbox-close:hover {
+      background: rgba(255,94,0,0.4);
+      border-color: var(--orange);
+    }
+
+    /* ---- SECTIONS ---- */
+    .info-section {
+      background: rgba(0,10,18,0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 32px 36px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+    .info-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--cyan), var(--blue));
+      border-radius: 4px 0 0 4px;
+    }
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 16px;
+    }
+    .section-label i {
+      font-size: 1rem;
+    }
+    .info-section p {
+      color: #cbd5e1;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* ---- RULES ---- */
+    .rules-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .rules-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .rules-list li:last-child { border-bottom: none; }
+    .rules-list li::before {
+      content: '✦';
+      color: var(--cyan);
+      font-size: 0.7rem;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    /* ---- META GRID ---- */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .meta-card {
+      background: rgba(0,10,18,0.7);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .meta-card:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 20px rgba(0,243,255,0.1);
+    }
+    .meta-card i {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .meta-card .meta-label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    .meta-card .meta-value {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* ---- PRIZE POOL ---- */
+    .prize-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 20px;
+    }
+    .prize-card {
+      border-radius: 16px;
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .prize-card.gold {
+      background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,140,0,0.05));
+      border: 1px solid rgba(255,215,0,0.35);
+    }
+    .prize-card.silver {
+      background: linear-gradient(135deg, rgba(192,192,192,0.15), rgba(128,128,128,0.05));
+      border: 1px solid rgba(192,192,192,0.35);
+    }
+    .prize-card.bronze {
+      background: linear-gradient(135deg, rgba(205,127,50,0.15), rgba(139,90,43,0.05));
+      border: 1px solid rgba(205,127,50,0.35);
+    }
+    .prize-card .prize-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .prize-card.gold .prize-icon { color: gold; text-shadow: 0 0 15px gold; }
+    .prize-card.silver .prize-icon { color: silver; text-shadow: 0 0 15px silver; }
+    .prize-card.bronze .prize-icon { color: #CD7F32; text-shadow: 0 0 15px #CD7F32; }
+    .prize-card .prize-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: #94a3b8;
+    }
+    .prize-card .prize-amount {
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .prize-card.gold .prize-amount { color: gold; }
+    .prize-card.silver .prize-amount { color: silver; }
+    .prize-card.bronze .prize-amount { color: #CD7F32; }
+    .prize-cert {
+      font-size: 0.75rem;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    /* ---- BACK BUTTON ---- */
+    .back-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 36px;
       background: linear-gradient(45deg, var(--blue), var(--cyan));
       color: white;
       text-decoration: none;
       border-radius: 40px;
       font-weight: 700;
-      font-size: 1.2rem;
-      transition: 0.4s;
+      font-size: 0.95rem;
+      transition: 0.3s;
       text-transform: uppercase;
       letter-spacing: 2px;
-      box-shadow: 0 0 25px rgba(0, 243, 255, 0.4);
+      box-shadow: 0 0 25px rgba(0,243,255,0.3);
     }
-
     .back-btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 40px rgba(0, 243, 255, 0.7);
-      background: linear-gradient(45deg, var(--cyan), var(--blue));
+      transform: translateY(-4px);
+      box-shadow: 0 0 40px rgba(0,243,255,0.6);
+    }
+    .register-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 36px;
+      background: linear-gradient(45deg, var(--orange), #ff8c00);
+      color: white;
+      text-decoration: none;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 0 25px rgba(255,94,0,0.3);
+    }
+    .register-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 40px rgba(255,94,0,0.6);
     }
 
-    .info-boxes {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 50px;
-      flex-wrap: wrap;
+    /* ---- DIVIDER ---- */
+    .divider-glow {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      margin: 50px 0;
+      opacity: 0.4;
     }
 
-    .info-box {
-      background: rgba(2, 11, 20, 0.4);
-      padding: 20px 40px;
-      border-radius: 15px;
-      min-width: 180px;
-      border: 1px solid var(--cyan);
-      box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
-    }
-
-    #event-icon {
-      font-size: 80px;
-      color: var(--cyan);
-      margin-bottom: 20px;
-      text-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+    @media(max-width: 600px) {
+      .event-page { margin-top: 90px; }
+      .info-section { padding: 22px 20px; }
+      .poster-wrapper img { height: 220px; }
+      .prize-card .prize-amount { font-size: 1.4rem; }
     }
   </style>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-
   <div id="particles-js"></div>
 
   <nav id="navbar" class="scrolled">
     <a href="index.html" class="logo">
-      <img src="rit_logo.jpg" alt="RIT Logo" style="height: 40px; vertical-align: middle; margin-right: 10px; border-radius: 5px;">
+      <img src="rit_logo.jpg" alt="RIT Logo" style="height:36px;vertical-align:middle;margin-right:10px;border-radius:5px;">
       <span class="text-intellexa">INTELLEXA</span> <span class="text-year">'26</span>
     </a>
-    <ul class="nav-links" style="display:flex; justify-content:flex-end;">
+    <ul class="nav-links" style="display:flex;justify-content:flex-end;">
       <li><a href="index.html">Home</a></li>
       <li><a href="index.html#events">All Events</a></li>
     </ul>
   </nav>
 
-  <div class="details-container">
-    <div class="logo-container">
-      <img src="intellexa_logo_3d.png" alt="Intellexa Logo" class="flipping-logo" style="width: 100px; margin-bottom: 20px;">
-    </div>
-    <i id="event-icon" class="fas fa-calendar"></i>
-    <h1 id="event-title">Loading...</h1>
-    <p id="event-desc" class="desc-text">Fetching Event Details.</p>
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <img id="lightbox-img" src="" alt="Event Poster">
+  </div>
 
-    <div class="info-boxes">
-      <div class="info-box">
-        <h3 style="color:var(--orange); margin-bottom: 12px; font-size: 1.2rem;">Time</h3>
-        <p id="event-time" style="margin:0; font-size:1.1rem; color: #fff;">09:30 AM Onwards</p>
-      </div>
-      <div class="info-box">
-        <h3 style="color:var(--cyan); margin-bottom: 12px; font-size: 1.2rem;">Venue</h3>
-        <p style="margin:0; font-size:1.1rem; color: #fff;">RIT Campus</p>
+  <div class="event-page">
+    <span class="event-type-badge" id="event-badge">Technical</span>
+    <h1 class="event-hero-title" id="event-title">Loading…</h1>
+    <p class="event-tagline" id="event-tagline"></p>
+
+    <!-- POSTER -->
+    <div class="poster-wrapper" id="poster-wrapper" onclick="openLightbox()">
+      <img id="event-poster" src="" alt="Event Poster">
+      <div class="poster-expand-hint">
+        <i class="fas fa-expand-alt"></i> Click to expand
       </div>
     </div>
 
-    <a href="index.html" class="back-btn">Back to Home</a>
+    <!-- DESCRIPTION -->
+    <div class="info-section">
+      <div class="section-label"><i class="fas fa-align-left"></i> About the Event</div>
+      <p id="event-desc"></p>
+    </div>
+
+    <!-- RULES -->
+    <div class="info-section">
+      <div class="section-label"><i class="fas fa-scroll"></i> Rules &amp; Regulations</div>
+      <ul class="rules-list" id="event-rules"></ul>
+    </div>
+
+    <!-- META: Time & Venue -->
+    <div class="meta-grid">
+      <div class="meta-card">
+        <i class="fas fa-clock" style="color:var(--cyan);"></i>
+        <div class="meta-label">Event Time</div>
+        <div class="meta-value" id="event-time">—</div>
+      </div>
+      <div class="meta-card">
+        <i class="fas fa-map-marker-alt" style="color:var(--orange);"></i>
+        <div class="meta-label">Venue</div>
+        <div class="meta-value" id="event-venue">—</div>
+      </div>
+      <div class="meta-card">
+        <i class="fas fa-users" style="color:#a78bfa;"></i>
+        <div class="meta-label">Team Size</div>
+        <div class="meta-value" id="event-team">—</div>
+      </div>
+    </div>
+
+    <!-- PRIZE POOL -->
+    <div class="info-section">
+      <div class="section-label"><i class="fas fa-trophy"></i> Prize Pool</div>
+      <div class="prize-grid" id="prize-grid"></div>
+    </div>
+
+    <div class="divider-glow"></div>
+
+    <div class="back-row">
+      <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+      <a href="https://intellexa-hhk2.onrender.com/" target="_blank" class="register-btn"><i class="fas fa-pen"></i> Register Now</a>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
   <script>
-    // PARTICLES
     particlesJS("particles-js", {
       particles: {
-        number: { value: 70 },
+        number: { value: 55 },
         color: { value: ["#00f3ff", "#ff5e00", "#0037ff"] },
         shape: { type: "circle" },
-        opacity: { value: 0.6 },
-        size: { value: 3 },
-        line_linked: { enable: true, distance: 150, color: "#00f3ff", opacity: 0.2, width: 1 },
-        move: { enable: true, speed: 1.5 }
+        opacity: { value: 0.5 },
+        size: { value: 2.5 },
+        line_linked: { enable: true, distance: 140, color: "#00f3ff", opacity: 0.15, width: 1 },
+        move: { enable: true, speed: 1.2 }
       }
     });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const eventId = urlParams.get('event');
-
+    // ========= EVENT DATA =========
     const eventData = {
       'nexa-workshop': {
         title: 'NEXA AI Workshop',
-        icon: 'fa-network-wired',
-        time: '09:30 AM',
-        desc: 'Dive into the core logic of predictive modeling and modern deep learning architectures. This exclusive workshop led by industry experts will walk you through cutting-edge neural networks using actual datasets and practical coding labs.'
-      },
-      'ai-prompt-arena': {
-        title: 'AI Prompt Arena',
-        icon: 'fa-robot',
-        time: '10:30 AM',
-        desc: 'Master the art of prompt engineering! Battle against top minds to generate the most accurate, creative, and optimal AI outputs in record time using various Large Language Models.'
+        tagline: 'Learn AI Tools and Future Technologies',
+        type: 'workshop',
+        poster: 'poster_nexa_workshop.png',
+        desc: 'NEXA AI Workshop is an exclusive, hands-on learning experience curated for tech enthusiasts and future AI engineers. Led by industry experts, you will explore cutting-edge AI tools, deep learning architectures, and real-time use cases. From prompt engineering to deploying your first neural network model, this workshop is your gateway to the AI-driven future.',
+        rules: [
+          'Prior registration is mandatory via the registration portal.',
+          'Each participant must bring their own laptop with Python 3.x and required libraries installed.',
+          'Participants are expected to be on time; sessions will not be repeated.',
+          'Strictly no plagiarism — all code during labs must be your own work.',
+          'Mobile phones must be on silent mode during workshop sessions.',
+          'A certificate of participation will be provided to all attendees.'
+        ],
+        time: '09:30 AM – 01:00 PM',
+        venue: 'Seminar Hall, RIT Campus',
+        team: 'Individual',
+        prizes: [
+          { rank: '1st', label: 'Best Project', amount: '₹3,000', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹1,500', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'Participation', amount: 'E-Certificate', icon: '🏅', type: 'bronze' }
+        ]
       },
       'paper-presentation': {
         title: 'Paper Presentation',
-        icon: 'fa-file-alt',
-        time: '10:30 AM',
-        desc: 'Showcase your research and innovative ideas. Present your technical papers to a panel of expert judges and win exciting rewards.'
+        tagline: 'Share Knowledge Through Research',
+        type: 'tech',
+        poster: 'poster_paper_presentation.png',
+        desc: 'The Paper Presentation event at INTELLEXA \'26 is a premier platform for students and researchers to present their original ideas, innovations, and technical findings. Participants from diverse domains of computer science and engineering will present their abstracts before a panel of distinguished faculty judges, competing for top honors and industry recognition.',
+        rules: [
+          'Papers must be original research work and not presented elsewhere.',
+          'Team size: 1 to 2 members per paper.',
+          'Presentation duration: 8 minutes + 2 minutes Q&A.',
+          'Abstract must be submitted at least 3 days before the event.',
+          'Support formats: PPT or PDF only (no video embeds).',
+          'Plagiarism will lead to immediate disqualification.',
+          'Results announced after all presentations are completed.'
+        ],
+        time: '10:30 AM – 01:00 PM',
+        venue: 'Seminar Hall A, RIT Campus',
+        team: '1–2 Members',
+        prizes: [
+          { rank: '1st', label: 'Winner', amount: '₹5,000', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹3,000', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'Participation', amount: 'Certificate', icon: '🏅', type: 'bronze' }
+        ]
       },
       'web-design-clash': {
         title: 'Web Design Clash',
-        icon: 'fa-paint-brush',
-        time: '10:30 AM',
-        desc: 'A front-end development battle! Design and build stunning, responsive user interfaces on the spot based on surprise themes provided on the floor.'
+        tagline: 'Design Creative Websites, Win Glory',
+        type: 'tech',
+        poster: 'poster_web_design_clash.png',
+        desc: 'Web Design Clash is an adrenaline-pumping front-end development battle where creativity meets code. Participants will receive a surprise theme on the day of the event and must design a fully functional, visually stunning, and responsive website within the time limit. Show off your mastery of HTML, CSS, and JavaScript to impress the judges!',
+        rules: [
+          'Team size: 1 to 2 members.',
+          'Duration: 2 hours to design and submit the website.',
+          'Theme will be revealed only on the day of the event.',
+          'Only HTML, CSS, and JavaScript are allowed — no frameworks like React or Vue.',
+          'Internet access is restricted to reference documentation only.',
+          'Submissions will be judged on creativity, responsiveness, visual appeal, and functionality.',
+          'No pre-built templates allowed.'
+        ],
+        time: '10:30 AM – 12:30 PM',
+        venue: 'Computer Lab 1, RIT Campus',
+        team: '1–2 Members',
+        prizes: [
+          { rank: '1st', label: 'Winner', amount: '₹4,000', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹2,000', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'Participation', amount: 'Certificate', icon: '🏅', type: 'bronze' }
+        ]
       },
       'code-relay': {
         title: 'Code Relay',
-        icon: 'fa-code',
-        time: '10:30 AM',
-        desc: 'A fast-paced team coding event! Members tag in and out to complete complex algorithmic challenges. Teamwork and logic mapping are key.'
+        tagline: 'Team Coding Race to Victory',
+        type: 'tech',
+        poster: 'poster_code_relay.png',
+        desc: 'Code Relay is a thrilling team coding event where each member must contribute to solving complex algorithmic challenges by tagging each other in — like a relay race! Strategy, communication, and coding skill determine the winner. Each round escalates in difficulty, testing your ability to read, continue, and optimize another person\'s code under time pressure.',
+        rules: [
+          'Team size: Exactly 3 members.',
+          'Each member codes for a fixed duration before tagging the next member.',
+          'Members may NOT communicate during the other\'s coding turn.',
+          'All standard C, C++, Java, or Python solutions are accepted.',
+          'Internet access is not permitted during the event.',
+          'Code must compile and produce correct output; partial output is not scored.',
+          'Teams will be disqualified for any form of external assistance.'
+        ],
+        time: '10:30 AM – 12:30 PM',
+        venue: 'Computer Lab 2, RIT Campus',
+        team: '3 Members',
+        prizes: [
+          { rank: '1st', label: 'Winner', amount: '₹6,000', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹3,000', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'Participation', amount: 'Certificate', icon: '🏅', type: 'bronze' }
+        ]
+      },
+      'ai-prompt-arena': {
+        title: 'AI Prompt Arena',
+        tagline: 'Create Powerful Prompts, Dominate AI',
+        type: 'tech',
+        poster: 'poster_ai_prompt_arena.png',
+        desc: 'AI Prompt Arena is an electrifying challenge where participants compete to craft the most effective, creative, and precise prompts to control AI Large Language Models (LLMs). Given a specific goal, contestants race to engineer prompts that produce the most accurate and impressive AI output. Master the language of the machines!',
+        rules: [
+          'Individual participation only.',
+          'Each round, a specific AI task will be announced.',
+          'Participants craft prompts and submit them within the time limit.',
+          'Results are judged on accuracy, creativity, and efficiency of the prompt.',
+          'Only approved AI tools provided by organizers may be used.',
+          'Prompt length limits will be specified per round.',
+          'Final scores are tallied from all rounds combined.'
+        ],
+        time: '10:30 AM – 12:00 PM',
+        venue: 'Smart Classroom, Block C, RIT Campus',
+        team: 'Individual',
+        prizes: [
+          { rank: '1st', label: 'Winner', amount: '₹4,000', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹2,000', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'Participation', amount: 'Certificate', icon: '🏅', type: 'bronze' }
+        ]
       },
       'ipl-auction': {
         title: 'IPL Auction',
-        icon: 'fa-gavel',
-        time: '10:30 AM',
-        desc: 'Put your strategic thinking to the test. Manage a simulated treasury, place high stakes bids, and formulate the ultimate cricket team in a thrilling live auction environment.'
+        tagline: 'Build Your Dream Team Strategy',
+        type: 'non-tech',
+        poster: 'poster_ipl_auction.png',
+        desc: 'The INTELLEXA IPL Auction is not just a game — it\'s a mind sport! Teams are assigned a virtual budget and must bid strategically on a pool of cricketers to assemble their dream IPL squad. Your ability to balance star players with budget buys, read your opponents\' strategies, and make split-second financial decisions will determine if you lift the trophy.',
+        rules: [
+          'Team size: 3 members per team.',
+          'Each team is given a virtual budget of ₹1,00,00,000.',
+          'Bidding starts at base price; increments must follow the official increment table.',
+          'Each team must buy a minimum of 11 players and a maximum of 15.',
+          'A valid team must include at least 2 overseas players.',
+          'No two teams can have the same captain.',
+          'The team with the best squad value and composition wins.'
+        ],
+        time: '10:30 AM – 01:00 PM',
+        venue: 'Auditorium, RIT Campus',
+        team: '3 Members',
+        prizes: [
+          { rank: '1st', label: 'Best Squad', amount: '₹5,000', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹2,500', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'E-Certificate', amount: 'For All', icon: '🏅', type: 'bronze' }
+        ]
       },
       'creative-reels': {
         title: 'Creative Reels & Photo Challenge',
-        icon: 'fa-camera-retro',
-        time: '10:30 AM',
-        desc: 'Capture the essence of the fest! Record, edit, and post the most creative reels or photographs of the symposium to win the top media prize.'
+        tagline: 'Theme Based Reels and Photos',
+        type: 'non-tech',
+        poster: 'poster_creative_reels.png',
+        desc: 'Creative Reels & Photo Challenge is the event for storytellers, photographers, and videographers! Participants will receive a unique theme at the start of the event and must create short reels or compelling photographs that capture the essence of the theme within the campus. Express your creativity, sense of aesthetics, and digital storytelling skills to win!',
+        rules: [
+          'Individual or team of 2 participants.',
+          'Theme will be announced on the day of the event.',
+          'Reels: 30–90 seconds duration. Photos: 3–5 best shots.',
+          'All content must be original and captured during the event.',
+          'Editing is allowed using mobile applications only.',
+          'Content must not contain any offensive material.',
+          'Submitted via official Google Form link shared on event day.',
+          'E-Certificate will be provided to all participants.'
+        ],
+        time: '10:30 AM – 01:00 PM',
+        venue: 'RIT Campus (Outdoor)',
+        team: '1–2 Members',
+        prizes: [
+          { rank: '1st', label: 'Best Reel/Photo', amount: '₹3,000', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹1,500', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'E-Certificate', amount: 'For All', icon: '🏅', type: 'bronze' }
+        ]
       },
       'brain-blitz': {
         title: 'Brain Blitz Quiz',
-        icon: 'fa-brain',
-        time: '10:30 AM',
-        desc: 'Test your general awareness and tech knowledge. A rapid-fire multimedia quiz where missing a beat could cost your team the championship.'
+        tagline: 'Test Knowledge in a Rapid Quiz',
+        type: 'non-tech',
+        poster: 'poster_brain_blitz.png',
+        desc: 'Brain Blitz is the ultimate rapid-fire knowledge showdown! Teams face multiple fast-paced rounds covering tech, general awareness, pop culture, science, and current events. With audio-visual clues, surprise buzzer rounds, and penalty points for wrong answers, every second counts. Are you quick enough to outsmart the competition?',
+        rules: [
+          'Team size: 2 members per team.',
+          'Three elimination rounds — only top teams advance.',
+          'Buzzer rounds: First to buzz gets to answer; wrong answer results in -1 point.',
+          'No mobile phones or external resources during the quiz.',
+          'Decision of the quizmaster is final and binding.',
+          'Ties will be broken by a sudden-death tiebreaker round.',
+          'E-Certificate will be provided to all participants.'
+        ],
+        time: '10:30 AM – 12:30 PM',
+        venue: 'Seminar Hall B, RIT Campus',
+        team: '2 Members',
+        prizes: [
+          { rank: '1st', label: 'Champions', amount: '₹4,000', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹2,000', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'E-Certificate', amount: 'For All', icon: '🏅', type: 'bronze' }
+        ]
       },
       'mindlink-challenge': {
         title: 'MindLink Challenge',
-        icon: 'fa-link',
-        time: '10:30 AM',
-        desc: 'Connect the clues. An interactive, multi-stage puzzle where you must decipher images, technical slang, and riddles to uncover the hidden mystery.'
+        tagline: 'Connect Ideas and Solve Smartly',
+        type: 'non-tech',
+        poster: 'poster_mindlink.png',
+        desc: 'MindLink Challenge is a multi-stage lateral thinking and word association game. Participants are presented with seemingly unrelated clues — images, words, sounds, and riddles — and must connect the dots to uncover a hidden link. Each stage unlocks a harder puzzle. It\'s the perfect combination of intellect, creativity, and teamwork!',
+        rules: [
+          'Team size: 2–3 members.',
+          'Multiple stages — each stage is unlocked only after solving the previous one.',
+          'Hints available (3 per team), but using a hint deducts points.',
+          'Teams must submit answers via physical answer sheets.',
+          'No internet access is allowed during the challenge.',
+          'Time bonus applies — faster correct answers earn more points.',
+          'E-Certificate will be provided to all participants.'
+        ],
+        time: '10:30 AM – 12:30 PM',
+        venue: 'Smart Classroom, Block A, RIT Campus',
+        team: '2–3 Members',
+        prizes: [
+          { rank: '1st', label: 'Winners', amount: '₹3,500', icon: '🥇', type: 'gold' },
+          { rank: '2nd', label: 'Runner Up', amount: '₹1,500', icon: '🥈', type: 'silver' },
+          { rank: 'All', label: 'E-Certificate', amount: 'For All', icon: '🏅', type: 'bronze' }
+        ]
       }
     };
 
-    const cleanEventId = eventId ? eventId.toLowerCase().trim() : '';
+    // ========= RENDER =========
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = (urlParams.get('event') || '').toLowerCase().trim();
+    const ev = eventData[eventId];
 
-    if (cleanEventId && eventData[cleanEventId]) {
-      const selectedEvent = eventData[cleanEventId];
-      document.getElementById('event-title').innerText = selectedEvent.title;
-      document.getElementById('event-desc').innerText = selectedEvent.desc;
-      document.getElementById('event-time').innerText = selectedEvent.time;
-      document.getElementById('event-icon').className = `fas ${selectedEvent.icon}`;
+    if (ev) {
+      document.title = ev.title + " | INTELLEXA '26";
+
+      // Badge
+      const badge = document.getElementById('event-badge');
+      badge.textContent = ev.type === 'tech' ? 'Technical Event'
+                        : ev.type === 'non-tech' ? 'Non-Technical Event'
+                        : 'Workshop';
+      badge.className = 'event-type-badge '
+                      + (ev.type === 'tech' ? 'badge-tech'
+                       : ev.type === 'non-tech' ? 'badge-non-tech'
+                       : 'badge-workshop');
+
+      document.getElementById('event-title').textContent  = ev.title;
+      document.getElementById('event-tagline').textContent = ev.tagline;
+      document.getElementById('event-desc').textContent   = ev.desc;
+      document.getElementById('event-time').textContent   = ev.time;
+      document.getElementById('event-venue').textContent  = ev.venue;
+      document.getElementById('event-team').textContent   = ev.team;
+
+      // Poster
+      const posterEl = document.getElementById('event-poster');
+      posterEl.src = ev.poster;
+      posterEl.alt = ev.title + ' Poster';
+
+      // Rules
+      const rulesList = document.getElementById('event-rules');
+      ev.rules.forEach(r => {
+        const li = document.createElement('li');
+        li.textContent = r;
+        rulesList.appendChild(li);
+      });
+
+      // Prizes
+      const prizeGrid = document.getElementById('prize-grid');
+      ev.prizes.forEach(p => {
+        prizeGrid.innerHTML += `
+          <div class="prize-card ${p.type}">
+            <div class="prize-icon">${p.icon}</div>
+            <div class="prize-label">${p.label}</div>
+            <div class="prize-amount">${p.amount}</div>
+          </div>`;
+      });
     } else {
-      document.getElementById('event-title').innerText = 'Event Not Found';
-      document.getElementById('event-desc').innerText = 'The event details you requested do not exist or may have been renamed.';
-      document.getElementById('event-icon').className = 'fas fa-exclamation-triangle';
-      document.getElementById('event-icon').style.color = '#ff5e00';
+      document.getElementById('event-title').textContent = 'Event Not Found';
+      document.getElementById('event-desc').textContent  = 'This event does not exist or the URL is incorrect.';
+      document.getElementById('poster-wrapper').style.display = 'none';
     }
+
+    // Lightbox
+    function openLightbox() {
+      const src = document.getElementById('event-poster').src;
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('active');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
   </script>
 </body>
 
