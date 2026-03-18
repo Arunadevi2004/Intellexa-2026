@@ -367,6 +367,26 @@ nav ul li a:hover::after {
   line-height: 1.6;
 }
 
+/* LOGO ANIMATION */
+.logo-container {
+  margin-bottom: 25px;
+  perspective: 1000px;
+}
+
+.flipping-logo {
+  width: clamp(80px, 12vw, 120px);
+  height: auto;
+  animation: flipLogo 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  filter: drop-shadow(0 0 15px rgba(0, 243, 255, 0.6));
+}
+
+@keyframes flipLogo {
+  0% { transform: rotateY(0deg) scale(1); }
+  20% { transform: rotateY(180deg) scale(1.1); }
+  40% { transform: rotateY(360deg) scale(1); }
+  100% { transform: rotateY(360deg) scale(1); }
+}
+
 .event-info-row {
   display: flex;
   justify-content: center;
