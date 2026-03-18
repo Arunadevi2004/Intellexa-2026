@@ -369,17 +369,27 @@ nav ul li a:hover::after {
 
 /* LOGO ANIMATION */
 .logo-container {
-  margin-bottom: 25px;
+  margin: 0 auto 25px;
   perspective: 1000px;
+  width: clamp(150px, 20vw, 220px);
+  height: clamp(150px, 20vw, 220px);
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(0, 243, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 10, 18, 0.5);
 }
 
 .flipping-logo {
-  width: clamp(150px, 20vw, 220px);
-  height: auto;
+  width: 95%; /* Shrink slightly to fit feathers/wings inside */
+  height: 95%;
+  object-fit: contain;
   animation: flipLogo 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-  filter: drop-shadow(0 0 30px rgba(0, 243, 255, 0.5));
+  filter: drop-shadow(0 0 20px rgba(0, 243, 255, 0.3));
   transition: 0.3s;
-  border-radius: 50%; /* Ensuring clean display of rounded logo */
 }
 
 .flipping-logo:hover {
