@@ -377,13 +377,14 @@ nav ul li a:hover::after {
   width: clamp(150px, 20vw, 220px);
   height: auto;
   animation: flipLogo 8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-  filter: drop-shadow(0 0 25px rgba(0, 243, 255, 0.4));
+  filter: drop-shadow(0 0 30px rgba(0, 243, 255, 0.5));
   transition: 0.3s;
+  border-radius: 50%; /* Ensuring clean display of rounded logo */
 }
 
 .flipping-logo:hover {
-  filter: drop-shadow(0 0 40px rgba(0, 243, 255, 0.8));
-  transform: scale(1.05);
+  filter: drop-shadow(0 0 50px rgba(0, 243, 255, 1));
+  transform: scale(1.1);
 }
 
 @keyframes flipLogo {
