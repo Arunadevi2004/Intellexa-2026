@@ -795,12 +795,6 @@ footer {
   }
 }
 
-@media(max-width: 600px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 .footer-grid h3 {
   margin-bottom: 25px;
   color: #fff;
@@ -867,6 +861,8 @@ footer {
   font-size: 0.95rem;
 }
 
+
+/* ===== MOBILE (max 768px) ===== */
 @media(max-width: 768px) {
   nav {
     padding: 15px 20px;
@@ -876,20 +872,189 @@ footer {
     display: none;
   }
 
+  .hero {
+    padding: 100px 15px 40px;
+  }
+
   .hero h1 {
-    font-size: 3.5rem;
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
+  }
+
+  .hero-header {
+    padding: 0 10px;
+    margin-bottom: 25px;
+  }
+
+  .college-name {
+    font-size: clamp(1rem, 3.5vw, 1.4rem);
+    text-align: center;
+  }
+
+  .logo-college-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .logo-college-row img {
+    height: 35px;
+  }
+
+  .collab-capsule {
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 15px 20px;
+    gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .capsule-logo {
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .dept-name {
+    font-size: 0.9rem;
+  }
+
+  .countdown {
+    gap: 10px;
+    margin-bottom: 30px;
   }
 
   .countdown div {
     min-width: 70px;
-    padding: 10px;
+    padding: 12px 10px;
+    border-radius: 12px;
   }
 
   .countdown span {
-    font-size: 24px;
+    font-size: 1.8rem;
+  }
+
+  .countdown small {
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+  }
+
+  .section {
+    padding: 60px 15px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    letter-spacing: 3px;
+    margin-bottom: 40px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .event-card {
+    padding: 30px 20px;
+  }
+
+  .about-content {
+    padding: 25px 20px;
+    font-size: 0.9rem;
+  }
+
+  .timeline {
+    padding-left: 25px;
+  }
+
+  .timeline-item .time {
+    font-size: 1.1rem;
   }
 
   .reg-box {
     padding: 40px 20px;
+    border-radius: 20px;
+  }
+
+  .fee-text {
+    font-size: 1.1rem;
+  }
+
+  .fee-text .highlight {
+    font-size: 1.4rem;
+  }
+
+  footer {
+    padding: 50px 15px 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .footer-bottom {
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 20px 10px;
+  }
+
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .social-links a {
+    margin-right: 0;
+  }
+}
+
+/* ===== SMALL MOBILE (max 480px) ===== */
+@media(max-width: 480px) {
+  .hero h1 {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .countdown {
+    gap: 8px;
+  }
+
+  .countdown div {
+    min-width: 60px;
+    padding: 10px 8px;
+  }
+
+  .countdown span {
+    font-size: 1.5rem;
+  }
+
+  .btn.primary-btn {
+    padding: 12px 28px;
+    font-size: 14px;
+  }
+
+  .collab-capsule {
+    padding: 12px 15px;
+    gap: 12px;
+  }
+
+  .logo-college-row img {
+    height: 28px;
+  }
+
+  .college-name {
+    font-size: clamp(0.85rem, 3vw, 1.1rem);
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+
+  .footer-grid h3 {
+    font-size: 1.1rem;
+  }
+
+  .rules-container ul {
+    padding-left: 15px;
   }
 }
