@@ -426,85 +426,47 @@
       opacity: 0.4;
     }
 
-    /* ---- COORDINATORS ---- */
-    .coord-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
+    /* ---- COORDINATORS (flat list style) ---- */
+    .coord-box {
+      background: rgba(0, 20, 30, 0.75);
+      border: 1.5px solid var(--cyan);
+      border-radius: 14px;
+      padding: 28px 32px;
+      font-family: 'Courier New', Courier, monospace;
+      box-shadow: 0 0 18px rgba(0, 243, 255, 0.1), inset 0 0 40px rgba(0, 243, 255, 0.03);
+      background-image:
+        linear-gradient(rgba(0, 243, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.04) 1px, transparent 1px);
+      background-size: 30px 30px;
     }
-    .coord-card {
+
+    .coord-row {
       display: flex;
-      align-items: center;
-      gap: 16px;
-      background: rgba(0,10,18,0.55);
-      border: 1px solid var(--glass-border);
-      border-radius: 16px;
-      padding: 16px 20px;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 14px;
+      font-size: 1rem;
+      line-height: 1.7;
     }
-    .coord-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 0% 50%, rgba(0,243,255,0.06), transparent 60%);
-      pointer-events: none;
+
+    .coord-row:last-child {
+      margin-bottom: 0;
     }
-    .coord-card.student-card::before {
-      background: radial-gradient(circle at 0% 50%, rgba(255,94,0,0.06), transparent 60%);
-    }
-    .coord-card:hover {
-      border-color: rgba(0,243,255,0.35);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0,243,255,0.1);
-    }
-    .coord-card.student-card:hover {
-      border-color: rgba(255,94,0,0.35);
-      box-shadow: 0 8px 25px rgba(255,94,0,0.1);
-    }
-    .coord-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      font-weight: 800;
-      flex-shrink: 0;
-    }
-    .coord-avatar.faculty-av {
-      background: linear-gradient(135deg, rgba(0,55,255,0.3), rgba(0,243,255,0.15));
-      border: 2px solid rgba(0,243,255,0.4);
+
+    .coord-key {
       color: var(--cyan);
-    }
-    .coord-avatar.student-av {
-      background: linear-gradient(135deg, rgba(255,94,0,0.3), rgba(255,200,0,0.1));
-      border: 2px solid rgba(255,94,0,0.4);
-      color: var(--orange);
-    }
-    .coord-info { flex: 1; min-width: 0; }
-    .coord-role-badge {
-      display: inline-block;
-      font-size: 0.6rem;
       font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      padding: 2px 10px;
-      border-radius: 20px;
-      margin-bottom: 4px;
+      font-size: 1rem;
+      flex-shrink: 0;
+      letter-spacing: 0.5px;
     }
-    .coord-role-badge.faculty { background: rgba(0,243,255,0.1); color: var(--cyan); border: 1px solid rgba(0,243,255,0.25); }
-    .coord-role-badge.student { background: rgba(255,94,0,0.1); color: var(--orange); border: 1px solid rgba(255,94,0,0.25); }
-    .coord-name { font-size: 0.95rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .coord-dept { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
-    .coord-phone {
-      margin-top: 6px; display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.8rem; color: #94a3b8; text-decoration: none; transition: color 0.2s;
+
+    .coord-val {
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      flex-wrap: wrap;
     }
-    .coord-phone:hover { color: var(--cyan); }
-    .coord-phone i { font-size: 0.7rem; }
 
     @media(max-width: 600px) {
       .event-page {
@@ -522,7 +484,11 @@
       .prize-card .prize-amount {
         font-size: 1.4rem;
       }
-      .coord-grid { grid-template-columns: 1fr; }
+
+      .coord-box {
+        padding: 20px 18px;
+      }
+      .coord-row { font-size: 0.9rem; }
     }
   </style>
 </head>
@@ -601,7 +567,7 @@
     <!-- COORDINATORS -->
     <div class="info-section">
       <div class="section-label"><i class="fas fa-id-badge"></i> Event Coordinators</div>
-      <div class="coord-grid" id="coord-grid"></div>
+      <div class="coord-box" id="coord-box"></div>
     </div>
 
     <div class="divider-glow"></div>
@@ -742,13 +708,13 @@
         tagline: 'Create Powerful Prompts, Dominate AI',
         type: 'tech',
         poster: 'poster_ai_prompt_arena.png',
-        desc: 'Round I – Before vs After Image (15 Minutes):Participants create two AI-generated images showing a transformation from a normal scenario to a futuristic or advanced version based on a given theme. This round acts as an elimination round, and only the top-performing participants will be selected for the next round based on creativity, clarity, and visual impact.Round II – Story in 3 Images (20 Minutes):Selected participants create a short visual story using three AI-generated images based on a given theme. Each image should represent a stage of the story. This round focuses on storytelling, creativity, and visual continuity.',
+        desc: 'The AI Prompt Engineering Competition is an innovative event designed to test participants’ creativity, critical thinking, and ability to communicate effectively with AI systems. Participants will be given real-world problem statements and must craft clear, precise, and creative prompts to generate the best possible outputs using AI tools. The competition focuses on creativity and innovation, prompt clarity and structure, problem-solving skills, and efficiency in AI usage. Whether a beginner or experienced in AI tools, this event provides an excellent platform to showcase smart thinking and effective prompting skills.',
         rules: [
           'Individual participation only.',
-          'Each round, a specific AI task will be announced.',
+          'Internet access will be provided',
+          'Participants are allowed to use AI tools such as ChatGPT, Gemini, etc., but copying prompts from external sources is strictly prohibited.',
           'Participants craft prompts and submit them within the time limit.',
           'Results are judged on accuracy, creativity, and efficiency of the prompt.',
-          'Only approved AI tools provided by organizers may be used.',
           'Time Duration: 35 Minutes + 10 Minutes (Evaluation)',
           'Final scores are tallied from all rounds combined.'
         ],
@@ -856,16 +822,16 @@
         desc: 'Mind Link – Where Minds Meet Without Words is a fast-paced, one-hour challenge that tests how well two minds connect through logic, speed, and smart thinking, where participants crack cleverly linked clues and race on the buzzer, requiring perfect synchronization and quick reactions; the game begins with Round 1: Thought Link, in which each team is given three clue words (for example, Apple, Newton, Fall), teammates discuss to find the connection, and one member submits the answer via a Google Form within the time limit, with each team attempting three sets and being shortlisted based on accuracy and speed (or using it as a warm-up if participation is low), followed by Round 2: Movie Buzzer Clash, where all participants connect to a buzzer app, images are shown as movie clues, and teams must quickly identify the answer and press the buzzer on a first-come, first-serve basis, earning points for correct answers while the fastest teams gain a competitive advantage.',
         rules: [
           'Team size: 2 members.',
-          'Multiple stages — each stage is unlocked only after solving the previous one.',
-          'Hints available (3 per team), but using a hint deducts points.',
-          'Teams must submit answers via physical answer sheets.',
+          ' Mobile phones are allowed only for Google Form & buzzer app',
+          'Time limits must be strictly followed in all rounds',
+          'Buzzer answers are considered only on first press.',
+          'Judges’ decisions are final and binding',
           'No internet access is allowed during the challenge.',
-          'Time bonus applies — faster correct answers earn more points.',
           'E-Certificate will be provided to all participants.'
         ],
-        time: '10:30 AM – 12:30 PM',
-        venue: 'Smart Classroom, Block A, RIT Campus',
-        team: '2–3 Members',
+        time: '02:30 AP – 03:00 PM',
+        venue: 'Classrooms',
+        team: '2 Members',
         prizes: [
           { rank: '1st', label: 'Winners', amount: '₹500', icon: '🥇', type: 'gold' },
           { rank: 'All', label: 'E-Certificate', amount: 'For All', icon: '🏅', type: 'bronze' }
@@ -890,18 +856,18 @@
       const badge = document.getElementById('event-badge');
       badge.textContent = ev.type === 'tech' ? 'Technical Event'
         : ev.type === 'non-tech' ? 'Non-Technical Event'
-        : 'Workshop';
+          : 'Workshop';
       badge.className = 'event-type-badge '
         + (ev.type === 'tech' ? 'badge-tech'
           : ev.type === 'non-tech' ? 'badge-non-tech'
-          : 'badge-workshop');
+            : 'badge-workshop');
 
-      document.getElementById('event-title').textContent  = ev.title;
+      document.getElementById('event-title').textContent = ev.title;
       document.getElementById('event-tagline').textContent = ev.tagline;
-      document.getElementById('event-desc').textContent   = ev.desc;
-      document.getElementById('event-time').textContent   = ev.time;
-      document.getElementById('event-venue').textContent  = ev.venue;
-      document.getElementById('event-team').textContent   = ev.team;
+      document.getElementById('event-desc').textContent = ev.desc;
+      document.getElementById('event-time').textContent = ev.time;
+      document.getElementById('event-venue').textContent = ev.venue;
+      document.getElementById('event-team').textContent = ev.team;
 
       // Poster
       const posterEl = document.getElementById('event-poster');
@@ -928,33 +894,31 @@
       });
 
       // Coordinators
-      const coordGrid = document.getElementById('coord-grid');
+      const coordBox = document.getElementById('coord-box');
       if (ev.coordinators && ev.coordinators.length) {
-        ev.coordinators.forEach(c => {
-          const initials = c.name.split(' ').slice(0,2).map(w => w[0]).join('');
-          const isFaculty = c.type === 'faculty';
-          coordGrid.innerHTML += `
-            <div class="coord-card ${isFaculty ? '' : 'student-card'}">
-              <div class="coord-avatar ${isFaculty ? 'faculty-av' : 'student-av'}">${initials}</div>
-              <div class="coord-info">
-                <span class="coord-role-badge ${isFaculty ? 'faculty' : 'student'}">
-                  ${isFaculty ? 'Faculty' : 'Student'}
-                </span>
-                <div class="coord-name">${c.name}</div>
-                <div class="coord-dept">${c.dept}</div>
-                <a href="tel:${c.phone}" class="coord-phone">
-                  <i class="fas fa-phone"></i> ${c.phone}
-                </a>
-              </div>
-            </div>`;
-        });
+        const students = ev.coordinators.filter(c => c.type === 'student').map(c => c.name);
+        const faculty  = ev.coordinators.filter(c => c.type === 'faculty').map(c => c.name);
+        let html = '';
+        if (students.length) {
+          html += `<div class="coord-row">
+            <span class="coord-key">Student:</span>
+            <span class="coord-val">${students.join(', ')}</span>
+          </div>`;
+        }
+        if (faculty.length) {
+          html += `<div class="coord-row">
+            <span class="coord-key">Faculty:</span>
+            <span class="coord-val">${faculty.join(', ')}</span>
+          </div>`;
+        }
+        coordBox.innerHTML = html;
       } else {
-        coordGrid.innerHTML = '<p style="color:#64748b;">Coordinator details coming soon.</p>';
+        coordBox.innerHTML = '<p style="color:#64748b; font-family: monospace;">Coordinator details coming soon.</p>';
       }
 
     } else {
       document.getElementById('event-title').textContent = 'Event Not Found';
-      document.getElementById('event-desc').textContent  = 'This event does not exist or the URL is incorrect.';
+      document.getElementById('event-desc').textContent = 'This event does not exist or the URL is incorrect.';
       document.getElementById('poster-wrapper').style.display = 'none';
     }
 
@@ -967,7 +931,7 @@
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('active');
     }
-    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
   </script>
 </body>
 
